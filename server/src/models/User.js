@@ -18,7 +18,14 @@ const userSchema = new Schema({
   teacher: {
     skills: { type: [String], default: [] },
     maxLoadPerDay: { type: Number, default: 6 },
-    unavailable: { type: [String], default: [] }
+    // --- FIX START ---
+    // Was: unavailable: { type: [String], default: [] }
+    // This caused [{day, period}] to be saved as "[object Object]"
+    unavailable: { 
+      type: [{ day: Number, period: Number }], 
+      default: [] 
+    }
+    // --- FIX END ---
   }
 }, { timestamps: true });
 

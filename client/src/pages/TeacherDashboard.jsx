@@ -1,3 +1,4 @@
+// client/src/pages/TeacherDashboard.jsx
 import React, { useEffect, useState } from 'react';
 import { api } from '../api';
 
@@ -7,7 +8,11 @@ export default function TeacherDashboard(){
   useEffect(()=>{
     (async ()=>{
       const { data } = await api.get('/teacher/me/timetable');
-      setSlots(data.slots || []);
+      // --- FIX START ---
+      // Was: setSlots(data.slots || []);
+      // The API returns the array directly, not an object { slots: [...] }
+      setSlots(Array.isArray(data) ? data : (data.slots || []));
+      // --- FIX END ---
     })();
   },[]);
 
